@@ -31,7 +31,7 @@ class Fetcher
 
     {
       id: data['issue']['id'],
-      title: data['issue']['subject'],
+      subject: data['issue']['subject'],
       category: category,
       status: data['issue']['status']['name'],
       journals: data['issue']['journals']

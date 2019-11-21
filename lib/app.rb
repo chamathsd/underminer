@@ -6,7 +6,7 @@ require 'active_support/core_ext'
 require 'csv'
 
 class App
-  attr_reader :board
+  attr_reader :issues
 
   def initialize
     @issues = load_data
@@ -14,7 +14,10 @@ class App
 
   def cycletime
     CSV.open('output.csv', 'w+') do |csv|
-      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'In Progress', 'Test', 'Feedback', 'Done']
+      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Test', 'Feedback', 'Done']
+      issues.each do |issue|
+        csv << [issue[:id], '', issue[:subject], issue[:analysis], issue[:in_progress], issue[:test], issue[:feedback], issue[:done]]
+      end
     end
   end
 
@@ -22,9 +25,8 @@ class App
 
   def load_data
     all_ids = Fetcher.all_issue_ids
-    issue_details = all_ids.map { |id| Fetcher.issue_details id }
-
-    byebug
-    print issue_details
+    all_ids.map do |id|
+      CycleTime.parse Fetcher.issue_details id
+    end
   end
 end
