@@ -16,7 +16,7 @@ class App
     CSV.open('output.csv', 'w+') do |csv|
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Test', 'Feedback', 'Done']
       issues.each do |issue|
-        csv << [issue[:id], '', issue[:subject], issue[:analysis], issue[:in_progress], issue[:test], issue[:feedback], issue[:done]]
+        csv << [issue[:id], issue[:link], issue[:subject], issue[:analysis], issue[:ready_to_work], issue[:in_progress], issue[:test], issue[:feedback], issue[:done]]
       end
     end
   end

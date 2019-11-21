@@ -17,6 +17,7 @@ class CycleTime
     issue_detail.deep_symbolize_keys!
     {
       id: issue_detail[:id],
+      link: issue_detail[:category],
       subject: issue_detail[:subject],
       analysis: analysis(issue_detail[:journals]),
       ready_to_work: ready_to_work(issue_detail[:journals]),

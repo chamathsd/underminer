@@ -69,7 +69,9 @@ class Fetcher
     uri = URI(url)
     params = {
       project_id: Config.project_id,
-      fixed_version_id: Config.fixed_version_id
+      fixed_version_id: Config.fixed_version_id,
+      limit: 100,
+      status_id: '*'
     }
     uri.query = URI.encode_www_form(params)
     uri
