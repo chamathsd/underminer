@@ -21,8 +21,10 @@ class App
   private
 
   def load_data
-    data = Fetcher.all_issue_ids
+    all_ids = Fetcher.all_issue_ids
+    issue_details = all_ids.map { |id| Fetcher.issue_details id }
+
     byebug
-    print data
+    print issue_details
   end
 end
