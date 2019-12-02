@@ -16,7 +16,10 @@ class App
     CSV.open('output.csv', 'w+') do |csv|
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Test', 'Feedback', 'Done']
       issues.each do |issue|
-        csv << [issue[:id], issue[:link], issue[:subject], issue[:analysis], issue[:ready_to_work], issue[:in_progress], issue[:test], issue[:feedback], issue[:done]]
+        csv << [issue[:id], issue[:link], issue[:subject],
+                issue[:analysis], issue[:ready_to_work],
+                issue[:in_progress], issue[:test],
+                issue[:feedback], issue[:done]]
       end
     end
   end
@@ -25,8 +28,10 @@ class App
 
   def load_data
     all_ids = Fetcher.all_issue_ids
+
     all_ids.map do |id|
-      CycleTime.parse Fetcher.issue_details id
+      issue_details = Fetcher.issue_details id
+      CycleTime.parse issue_details
     end
   end
 end

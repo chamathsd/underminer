@@ -4,12 +4,21 @@ require 'json'
 
 class Fetcher
   def self.all_issue_ids
-    response = all_issues_request
+    all_issues = []
+    offset = 0
 
-    return response.value unless response.is_a?(Net::HTTPSuccess)
+    loop do
+      response = all_issues_request offset
+      return response.value unless response.is_a?(Net::HTTPSuccess)
 
-    data = JSON.parse(response.body)
-    data['issues'].map { |x| x['id'] }
+      data = JSON.parse(response.body)
+      total_issues = data['total_count']
+      all_issues << data['issues']
+
+      break if all_issues.count == total_issues
+    end
+
+    all_issues.map { |x| x['id'] }
   end
 
   def self.issue_details(issue_id)
@@ -17,7 +26,22 @@ class Fetcher
 
     return response.value unless response.is_a?(Net::HTTPSuccess)
 
+    format_response response
+  end
+
+  def self.format_response(response)
     data = JSON.parse(response.body)
+
+    {
+      id: data['issue']['id'],
+      subject: data['issue']['subject'],
+      category: category(data),
+      status: data['issue']['status']['name'],
+      journals: data['issue']['journals']
+    }
+  end
+
+  def self.category(data)
     category = ''
     if data['issue'].key?('category')
       unless data['issue']['category'].nil?
@@ -28,14 +52,6 @@ class Fetcher
         end
       end
     end
-
-    {
-      id: data['issue']['id'],
-      subject: data['issue']['subject'],
-      category: category,
-      status: data['issue']['status']['name'],
-      journals: data['issue']['journals']
-    }
   end
 
   def self.make_issue_details_request(issue_id)
