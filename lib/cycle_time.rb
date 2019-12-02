@@ -29,30 +29,30 @@ class CycleTime
   end
 
   def self.analysis(journals)
-    thing journals, ANALYSIS_STATUS_ID
+    get_cycletime_for journals, ANALYSIS_STATUS_ID
   end
 
   def self.in_progress(journals)
-    thing journals, IN_PROGRESS_STATUS_ID
+    get_cycletime_for journals, IN_PROGRESS_STATUS_ID
   end
 
   def self.ready_to_work(journals)
-    thing journals, READY_TO_WORK_STATUS_ID
+    get_cycletime_for journals, READY_TO_WORK_STATUS_ID
   end
 
   def self.test(journals)
-    thing journals, TEST_STATUS_ID
+    get_cycletime_for journals, TEST_STATUS_ID
   end
 
   def self.feedback(journals)
-    thing journals, FEEDBACK_STATUS_ID
+    get_cycletime_for journals, FEEDBACK_STATUS_ID
   end
 
   def self.done(journals)
-    thing journals, DONE_STATUS_ID
+    get_cycletime_for journals, DONE_STATUS_ID
   end
 
-  def self.thing(journals, datum)
+  def self.get_cycletime_for(journals, datum)
     status_change = journals.select do |journal|
       journal[:details].any? do |detail|
         detail[:name] == 'status_id' && detail[:new_value] == datum

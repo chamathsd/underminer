@@ -12,6 +12,6 @@ class Config
   end
 
   def self.base_url
-    ''
+    'https://redmine.gs.mil'
   end
 end
