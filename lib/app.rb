@@ -28,10 +28,20 @@ class App
 
   def load_data
     all_ids = Fetcher.all_issue_ids
+    puts "Found #{all_ids.count} issues in project #{Config.project_id}"
 
-    all_ids.map do |id|
-      issue_details = Fetcher.issue_details id
+    all_ids.each_with_index.map do |issue_id, index|
+      update_progress_bar index + 1, all_ids.count
+      issue_details = Fetcher.issue_details issue_id
       CycleTime.parse issue_details
+    end
+  end
+
+  def update_progress_bar(progress, total)
+    if progress == total
+      printf("\rFetching details: [%-20s]", "#{'=' * 15}Done!")
+    else
+      printf("\rFetching details: [%-20s]", '=' * ((progress.to_f / total) * 20))
     end
   end
 end
