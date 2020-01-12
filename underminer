@@ -11,14 +11,4 @@ program :name, 'underminer'
 program :version, '0.0.1'
 program :description, 'Pulls in data from Redmine and spits out metrics'
 
-command :cycletime do |c|
-  c.syntax = 'metricizer cycletime [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
-  c.action do |args, options|
-    App.new.cycletime
-  end
-end
-
+App.new.cycletime
