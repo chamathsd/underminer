@@ -58,6 +58,6 @@ class CycleTime
         detail[:name] == 'status_id' && detail[:new_value] == datum
       end
     end
-    status_change.first[:created_on] if status_change.any?
+    status_change.last[:created_on] if status_change.any?
   end
 end
