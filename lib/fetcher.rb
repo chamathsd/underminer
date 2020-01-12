@@ -9,15 +9,12 @@ class Fetcher
 
     loop do
       response = all_issues_request all_issues.count
-      puts "request was a #{response.is_a?(Net::HTTPSuccess) ? 'success' : 'failure'}"
-      return response.value unless response.is_a?(Net::HTTPSuccess)
+      raise 'Request was a failure' unless response.is_a?(Net::HTTPSuccess)
 
       data = JSON.parse(response.body)
-      total_issues = data['total_count']
       all_issues += data['issues']
 
-      puts "received #{data['issues'].count} issues - out of #{total_issues} total issues"
-      break if all_issues.count == total_issues.to_i
+      break if all_issues.count == data['total_count'].to_i
     end
 
     all_issues.map { |x| x['id'] }
@@ -26,7 +23,7 @@ class Fetcher
   def self.issue_details(issue_id)
     response = make_issue_details_request issue_id
 
-    return response.value unless response.is_a?(Net::HTTPSuccess)
+    raise 'Request was a failure' unless response.is_a?(Net::HTTPSuccess)
 
     format_response response
   end
@@ -66,8 +63,6 @@ class Fetcher
     http.use_ssl = true
     request = Net::HTTP::Get.new(uri.request_uri, header)
 
-    puts 'Requesting issue details'
-    puts "HTTP GET #{uri}"
     http.request(request)
   end
 
@@ -80,9 +75,6 @@ class Fetcher
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     request = Net::HTTP::Get.new(uri.request_uri, header)
-
-    puts 'Requesting all issues'
-    puts "HTTP GET #{uri}"
 
     http.request(request)
   end
