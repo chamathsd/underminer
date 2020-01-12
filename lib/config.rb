@@ -4,7 +4,7 @@ class Config
   end
 
   def self.fixed_version_id
-    '1207'
+    [1207, 1228]
   end
 
   def self.api_key
