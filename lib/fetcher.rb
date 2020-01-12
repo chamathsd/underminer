@@ -91,7 +91,7 @@ class Fetcher
     uri = URI("#{Config.base_url}/issues.json")
     params = {
       project_id: Config.project_id,
-      fixed_version_ids: Config.fixed_version_id,
+      fixed_version_id: Config.fixed_version_id.join('|'),
       limit: 100,
       status_id: '*',
       offset: offset
