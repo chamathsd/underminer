@@ -5,19 +5,13 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'csv'
 
-class App
-  attr_reader :issues
-
-  def initialize
-    @issues = load_data
-  end
-
+class ProjectMetrics
   def cycletime
-    filename = 'output.csv'
+    filename = 'cycletimes.csv'
     puts "Generating cycletime and writing to #{filename}"
     CSV.open(filename, 'w+') do |csv|
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Test', 'Feedback', 'Done']
-      issues.each do |issue|
+      issues_details.each do |issue|
         cycle_time = CycleTime.parse issue
         csv << [cycle_time[:id], cycle_time[:link], cycle_time[:subject],
                 cycle_time[:analysis], cycle_time[:ready_to_work],
@@ -27,9 +21,18 @@ class App
     end
   end
 
+  def kickbacks
+    filename = 'kickbacks.csv'
+    puts "Generating kickbacks and writing to #{filename}"
+  end
+
   private
 
-  def load_data
+  def issue_details
+    @issues_details ||= load_issue_details
+  end
+
+  def load_issue_details
     all_issue_ids = AllIssuesFetcher.new.fetch
     puts "Found #{all_issue_ids.count} issues in project #{Config.project_id}"
 
