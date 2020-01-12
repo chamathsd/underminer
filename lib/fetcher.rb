@@ -6,10 +6,9 @@ require 'byebug'
 class Fetcher
   def self.all_issue_ids
     all_issues = []
-    offset = 0
 
     loop do
-      response = all_issues_request offset
+      response = all_issues_request all_issues.count
       puts "request was a #{response.is_a?(Net::HTTPSuccess) ? 'success' : 'failure'}"
       return response.value unless response.is_a?(Net::HTTPSuccess)
 
