@@ -8,10 +8,10 @@ class Config
   end
 
   def self.api_key
-    ''
+    ENV['UNDERMINER_API_KEY']
   end
 
   def self.base_url
-    'https://redmine.gs.mil'
+    ENV['UNDERMINER_BASE_URL']
   end
 end
