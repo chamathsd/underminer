@@ -13,7 +13,9 @@ class App
   end
 
   def cycletime
-    CSV.open('output.csv', 'w+') do |csv|
+    filename = 'output.csv'
+    puts "Generating cycletime and writing to #{filename}"
+    CSV.open(filename, 'w+') do |csv|
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Test', 'Feedback', 'Done']
       issues.each do |issue|
         cycle_time = CycleTime.parse issue
