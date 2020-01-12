@@ -1,14 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'commander/import'
 
 lib_dir = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift lib_dir
 Dir["#{lib_dir}/**/*.rb"].each { |file| require File.basename(file) }
-
-program :name, 'underminer'
-program :version, '0.0.1'
-program :description, 'Pulls in data from Redmine and spits out metrics'
 
 App.new.cycletime
