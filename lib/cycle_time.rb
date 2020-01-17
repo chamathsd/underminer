@@ -6,13 +6,6 @@ require 'active_support/core_ext'
 require 'csv'
 
 class CycleTime
-  ANALYSIS_STATUS_ID = '4'.freeze
-  READY_TO_WORK_STATUS_ID = '10'.freeze
-  IN_PROGRESS_STATUS_ID = '3'.freeze
-  TEST_STATUS_ID = '11'.freeze
-  FEEDBACK_STATUS_ID = '5'.freeze
-  DONE_STATUS_ID = '9'.freeze
-
   def self.parse(issue_detail)
     issue_detail.deep_symbolize_keys!
     {
@@ -29,27 +22,27 @@ class CycleTime
   end
 
   def self.analysis(journals)
-    get_cycletime_for journals, ANALYSIS_STATUS_ID
+    get_cycletime_for journals, Config::ANALYSIS_STATUS_ID
   end
 
   def self.in_progress(journals)
-    get_cycletime_for journals, IN_PROGRESS_STATUS_ID
+    get_cycletime_for journals, Config::IN_PROGRESS_STATUS_ID
   end
 
   def self.ready_to_work(journals)
-    get_cycletime_for journals, READY_TO_WORK_STATUS_ID
+    get_cycletime_for journals, Config::READY_TO_WORK_STATUS_ID
   end
 
   def self.test(journals)
-    get_cycletime_for journals, TEST_STATUS_ID
+    get_cycletime_for journals, Config::TEST_STATUS_ID
   end
 
   def self.feedback(journals)
-    get_cycletime_for journals, FEEDBACK_STATUS_ID
+    get_cycletime_for journals, Config::FEEDBACK_STATUS_ID
   end
 
   def self.done(journals)
-    get_cycletime_for journals, DONE_STATUS_ID
+    get_cycletime_for journals, Config::DONE_STATUS_ID
   end
 
   def self.get_cycletime_for(journals, datum)

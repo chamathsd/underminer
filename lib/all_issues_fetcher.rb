@@ -38,8 +38,8 @@ class AllIssuesFetcher
   def all_issues_uri(offset)
     uri = URI("#{Config.base_url}/issues.json")
     params = {
-      project_id: Config.project_id,
-      fixed_version_id: Config.fixed_version_id.join('|'),
+      project_id: Config::PROJECT_ID,
+      fixed_version_id: Config::FIXED_VERSION_IDS.join('|'),
       limit: 100,
       status_id: '*',
       offset: offset
