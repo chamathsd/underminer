@@ -26,11 +26,15 @@ class ProjectMetrics
     filename = 'kickbacks.csv'
     puts "Generating kickbacks and writing to #{filename}"
 
+    total_kickbacks = []
+    issue_details.each do |issue|
+      total_kickbacks += KickbackParser.parse issue
+    end
+
     CSV.open(filename, 'w+') do |csv|
       csv << ['Issue ID', 'Kickback On', 'Kickback From']
 
-      issue_details.each do |issue|
-        kickback = KickbackParser.parse issue
+      total_kickbacks.each do |kickback|
         csv << [kickback[:id], kickback[:kicked_on], kickback[:kicked_from]]
       end
     end
