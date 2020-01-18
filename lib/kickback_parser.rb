@@ -20,7 +20,6 @@ class KickbackParser
     transition = journal_entry[:details].select { |entry| entry[:name] == 'status_id' }.first
 
     {
-      id: journal_entry[:id],
       created_on: journal_entry[:created_on],
       from: transition[:old_value],
       to: transition[:new_value]
@@ -31,7 +30,6 @@ class KickbackParser
     return unless kickback?(journal_entry)
 
     {
-      id: journal_entry[:id],
       kicked_on: journal_entry[:created_on],
       kicked_from: journal_entry[:from]
     }

@@ -180,7 +180,7 @@ describe KickbackParser do
         created_on: 'created on'
       }
       actual = KickbackParser.from_status_change entry
-      expect(actual).to eq(id: 'id 123', created_on: 'created on', from: 'old 1', to: 'new 1')
+      expect(actual).to eq(created_on: 'created on', from: 'old 1', to: 'new 1')
     end
 
     it 'should return true for status ids changes' do
@@ -196,7 +196,6 @@ describe KickbackParser do
     describe 'go from analysis to ready' do
       it 'should not be a kickback so it should be nil' do
         entry = {
-          id: 'id 123',
           created_on: 'created on',
           from: Config::ANALYSIS_STATUS_ID,
           to: Config::READY_TO_WORK_STATUS_ID
@@ -217,7 +216,6 @@ describe KickbackParser do
         }
         actual = KickbackParser.add_kickback entry
 
-        expect(actual[:id]).to eq('id 123')
         expect(actual[:kicked_on]).to eq('created on')
       end
 

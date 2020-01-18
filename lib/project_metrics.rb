@@ -31,11 +31,18 @@ class ProjectMetrics
       total_kickbacks += KickbackParser.parse issue
     end
 
-    CSV.open(filename, 'w+') do |csv|
-      csv << ['Issue ID', 'Kickback On', 'Kickback From']
+    kickbacks_by_day = {}
+    total_kickbacks.each do |kickback|
+      kicked_on = DateTime.parse(kickback[:kicked_on]).strftime('%m/%d/%Y')
+      kickbacks_by_day[kicked_on] = 0 unless kickbacks_by_day.key? kickback[:kicked_on]
+      kickbacks_by_day[kicked_on] += 1
+    end
 
-      total_kickbacks.each do |kickback|
-        csv << [kickback[:id], kickback[:kicked_on], kickback[:kicked_from]]
+    CSV.open(filename, 'w+') do |csv|
+      csv << ['Kickback On', 'Kickback Count']
+
+      kickbacks_by_day.keys.each do |date|
+        csv << [date, kickbacks_by_day[date]]
       end
     end
   end
