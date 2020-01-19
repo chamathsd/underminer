@@ -32,10 +32,7 @@ class ProjectMetrics
     filename = 'kickbacks.csv'
     puts "Generating kickbacks and writing to #{filename}"
 
-    total_kickbacks = []
-    issue_details.each do |issue|
-      total_kickbacks += KickbackParser.parse issue
-    end
+    total_kickbacks = issue_details.map { |issue| KickbackParser.parse issue }.flatten
 
     kickbacks_by_day = {}
     total_kickbacks.each do |kickback|

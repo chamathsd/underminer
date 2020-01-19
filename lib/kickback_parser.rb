@@ -6,7 +6,7 @@ class KickbackParser
   def self.extract_status_changes(id, journals)
     journals
       .select(&method(:status_change?))
-      .map(&method(:from_status_change))
+      .map(&method(:format_status_change))
       .map(&method(:add_kickback))
       .compact
       .map { |entry| entry.merge(id: id) }
@@ -16,7 +16,7 @@ class KickbackParser
     journal[:details].any? { |detail| detail[:name] == 'status_id' }
   end
 
-  def self.from_status_change(journal_entry)
+  def self.format_status_change(journal_entry)
     transition = journal_entry[:details].select { |entry| entry[:name] == 'status_id' }.first
 
     {

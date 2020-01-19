@@ -164,7 +164,7 @@ describe KickbackParser do
     end
   end
 
-  describe '#from_status_change' do
+  describe '#format_status_change' do
     it 'should contain a from' do
       entry = {
         id: 'id 123',
@@ -179,7 +179,7 @@ describe KickbackParser do
         }],
         created_on: 'created on'
       }
-      actual = KickbackParser.from_status_change entry
+      actual = KickbackParser.format_status_change entry
       expect(actual).to eq(created_on: 'created on', from: 'old 1', to: 'new 1')
     end
 
