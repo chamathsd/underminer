@@ -8,7 +8,7 @@ require 'csv'
 class ProjectMetrics
   attr_reader :issue_details
 
-  def initalize(issue_details)
+  def initialize(issue_details)
     @issue_details = issue_details
   end
 
@@ -32,9 +32,16 @@ class ProjectMetrics
     filename = 'kickbacks.csv'
     puts "Generating kickbacks and writing to #{filename}"
 
-    total_kickbacks = issue_details.map { |issue| KickbackParser.parse issue }.flatten
+    all_kickbacks = issue_details.map { |issue| KickbackParser.parse issue }.flatten
 
-    kickbacks_by_day = {}
+    start_time = DateTime.parse(2019, 10,26)
+    timeline = (start_time..Time.now).to_a.select { |k| k.wday == 1 }
+    timeline_map = timeline.map { |d| { d => 0 } }
+
+    all_kickbacks.each do |kickback|
+
+    end
+
     total_kickbacks.each do |kickback|
       kicked_on = DateTime.parse(kickback[:kicked_on]).strftime('%m/%d/%Y')
       kickbacks_by_day[kicked_on] = 0 unless kickbacks_by_day.key? kickback[:kicked_on]
@@ -44,8 +51,8 @@ class ProjectMetrics
     CSV.open(filename, 'w+') do |csv|
       csv << ['Kickback On', 'Kickback Count']
 
-      kickbacks_by_day.keys.each do |date|
-        csv << [date, kickbacks_by_day[date]]
+      timeline_map.keys.each do |date|
+        csv << [date, timeline_map[date]]
       end
     end
   end
