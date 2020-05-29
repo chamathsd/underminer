@@ -19,19 +19,20 @@ class IssueDetailsFetcher
     {
       id: data['issue']['id'],
       subject: data['issue']['subject'],
-      category: category(data),
+      link: "#{Config.base_url}/issues/#{data['issue']['id']}",
       status: data['issue']['status']['name'],
-      journals: data['issue']['journals']
+      journals: data['issue']['journals'],
+      assignee: assigned_to(data)
     }
   end
 
-  def category(data)
-    category = ''
-    if data['issue'].key?('category')
-      unless data['issue']['category'].nil?
-        if data['issue']['category'].key?('name')
-          unless data['issue']['category']['name'].nil?
-            category = data['issue']['category']['name']
+  def assigned_to(data)
+    assigned_to = ''
+    if data['issue'].key?('assigned_to')
+      unless data['issue']['assigned_to'].nil?
+        if data['issue']['assigned_to'].key?('name')
+          unless data['issue']['assigned_to']['name'].nil?
+            assigned_to = data['issue']['assigned_to']['name']
           end
         end
       end

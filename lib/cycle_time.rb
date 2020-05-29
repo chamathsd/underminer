@@ -10,14 +10,16 @@ class CycleTime
     issue_detail.deep_symbolize_keys!
     {
       id: issue_detail[:id],
-      link: issue_detail[:category],
+      link: issue_detail[:link],
       subject: issue_detail[:subject],
       analysis: analysis(issue_detail[:journals]),
       ready_to_work: ready_to_work(issue_detail[:journals]),
       in_progress: in_progress(issue_detail[:journals]),
       test: test(issue_detail[:journals]),
       feedback: feedback(issue_detail[:journals]),
-      done: done(issue_detail[:journals])
+      done: done(issue_detail[:journals]),
+      assignee: issue_detail[:assignee],
+      status: issue_detail[:status]
     }
   end
 
