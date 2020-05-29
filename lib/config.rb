@@ -25,4 +25,6 @@ class Config
     Config::FEEDBACK_STATUS_ID => 5,
     Config::DONE_STATUS_ID => 6
   }.freeze
+
+  ISSUE_OUTLIERS = [36319, 40351]
 end

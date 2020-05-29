@@ -20,6 +20,7 @@ class ProjectMetrics
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Test', 'Feedback', 'Done', 'Assignee', 'Status']
       issue_details.each do |issue|
         cycle_time = CycleTime.parse issue
+        next if Config::ISSUE_OUTLIERS.include? cycle_time[:id]
         csv << [cycle_time[:id], cycle_time[:link], cycle_time[:subject],
                 cycle_time[:analysis], cycle_time[:ready_to_work],
                 cycle_time[:in_progress], cycle_time[:test],
