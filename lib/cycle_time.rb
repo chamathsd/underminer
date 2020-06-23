@@ -19,7 +19,8 @@ class CycleTime
       feedback: feedback(issue_detail[:journals]),
       done: done(issue_detail[:journals]),
       assignee: issue_detail[:assignee],
-      status: issue_detail[:status]
+      status: issue_detail[:status],
+      tracker: issue_detail[:tracker]
     }
   end
 

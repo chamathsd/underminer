@@ -22,7 +22,8 @@ class IssueDetailsFetcher
       link: "#{Config.base_url}/issues/#{data['issue']['id']}",
       status: data['issue']['status']['name'],
       journals: data['issue']['journals'],
-      assignee: assigned_to(data)
+      assignee: assigned_to(data),
+      tracker: data['issue']['tracker']['name']
     }
   end
 
