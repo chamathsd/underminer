@@ -26,6 +26,6 @@ class Config
     Config::DONE_STATUS_ID => 6
   }.freeze
 
-  ISSUE_OUTLIERS = [36319, 40351]
+  ISSUE_OUTLIERS = [36319, 40351, 40519]
   TRACKERS_TO_SKIP = ['Epic', 'Feature', 'Support']
 end
