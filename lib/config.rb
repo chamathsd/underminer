@@ -14,6 +14,7 @@ class Config
   READY_TO_WORK_STATUS_ID = '10'.freeze
   IN_PROGRESS_STATUS_ID = '3'.freeze
   TEST_STATUS_ID = '11'.freeze
+  RESOLVED_STATUS_ID = '6'.freeze
   FEEDBACK_STATUS_ID = '5'.freeze
   DONE_STATUS_ID = '9'.freeze
 
@@ -22,8 +23,9 @@ class Config
     Config::READY_TO_WORK_STATUS_ID => 2,
     Config::IN_PROGRESS_STATUS_ID => 3,
     Config::TEST_STATUS_ID => 4,
-    Config::FEEDBACK_STATUS_ID => 5,
-    Config::DONE_STATUS_ID => 6
+    Config::RESOLVED_STATUS_ID => 5,
+    Config::FEEDBACK_STATUS_ID => 6,
+    Config::DONE_STATUS_ID => 7
   }.freeze
 
   ISSUE_OUTLIERS = [36319, 40351, 40519]

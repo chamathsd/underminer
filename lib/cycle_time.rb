@@ -16,6 +16,7 @@ class CycleTime
       ready_to_work: ready_to_work(issue_detail[:journals]),
       in_progress: in_progress(issue_detail[:journals]),
       test: test(issue_detail[:journals]),
+      resolved: resolved(issue_detail[:journals]),
       feedback: feedback(issue_detail[:journals]),
       done: done(issue_detail[:journals]),
       assignee: issue_detail[:assignee],
@@ -38,6 +39,10 @@ class CycleTime
 
   def self.test(journals)
     get_cycletime_for journals, Config::TEST_STATUS_ID
+  end
+
+  def self.resolved(journals)
+    get_cycletime_for journals, Config::RESOLVED_STATUS_ID
   end
 
   def self.feedback(journals)
