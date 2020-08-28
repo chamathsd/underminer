@@ -36,7 +36,7 @@ class ProjectMetrics
   def calculate_days_in_work(row)
     start_date = row[:in_progress] || row[:test] || row[:resolved] || row[:feedback]
     done_date = row[:done]
-    (start_date.nil? || done_date.nil?) ? nil : (Date.parse(done_date) - Date.parse(start_date)).to_i
+    (start_date.nil? || done_date.nil?) ? nil : (DateTime.parse(done_date) - DateTime.parse(start_date)).to_f.round(1)
   end
 
   def kickbacks
