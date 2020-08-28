@@ -17,7 +17,7 @@ class ProjectMetrics
     puts "Generating cycletime and writing to #{filename}"
 
     CSV.open(filename, 'w+') do |csv|
-      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work']
+      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt']
       issue_details.each do |issue|
         cycle_time = CycleTime.parse issue
         next if (Config::ISSUE_OUTLIERS.include? cycle_time[:id]) ||
@@ -27,7 +27,8 @@ class ProjectMetrics
                 cycle_time[:in_progress], cycle_time[:test],
                 cycle_time[:resolved], cycle_time[:feedback],
                 cycle_time[:done], cycle_time[:assignee],
-                cycle_time[:status], calculate_days_in_work(cycle_time)
+                cycle_time[:status], calculate_days_in_work(cycle_time),
+                is_tech_debt(cycle_time)
               ]
       end
     end
@@ -37,6 +38,13 @@ class ProjectMetrics
     start_date = row[:in_progress] || row[:test] || row[:resolved] || row[:feedback]
     done_date = row[:done]
     (start_date.nil? || done_date.nil?) ? nil : (DateTime.parse(done_date) - DateTime.parse(start_date)).to_f.round(1)
+  end
+
+  def is_tech_debt(row)
+    regex = Regexp.new(/tech(?:nical)*\s*debt/i)
+    tech_debt_in_title = regex.match(row[:subject])
+    tech_debt_in_desc = regex.match(row[:description])
+    tech_debt_in_title || tech_debt_in_desc ? 'Yes' : 'No'
   end
 
   def kickbacks

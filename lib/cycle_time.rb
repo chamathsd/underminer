@@ -21,7 +21,8 @@ class CycleTime
       done: done(issue_detail[:journals]),
       assignee: issue_detail[:assignee],
       status: issue_detail[:status],
-      tracker: issue_detail[:tracker]
+      tracker: issue_detail[:tracker],
+      description: issue_detail[:description]
     }
   end
 

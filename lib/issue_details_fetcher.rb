@@ -23,7 +23,8 @@ class IssueDetailsFetcher
       status: data['issue']['status']['name'],
       journals: data['issue']['journals'],
       assignee: assigned_to(data),
-      tracker: data['issue']['tracker']['name']
+      tracker: data['issue']['tracker']['name'],
+      description: data['issue']['description']
     }
   end
 
