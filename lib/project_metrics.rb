@@ -17,7 +17,7 @@ class ProjectMetrics
     puts "Generating cycletime and writing to #{filename}"
 
     CSV.open(filename, 'w+') do |csv|
-      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status']
+      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work']
       issue_details.each do |issue|
         cycle_time = CycleTime.parse issue
         next if (Config::ISSUE_OUTLIERS.include? cycle_time[:id]) ||
@@ -27,10 +27,16 @@ class ProjectMetrics
                 cycle_time[:in_progress], cycle_time[:test],
                 cycle_time[:resolved], cycle_time[:feedback],
                 cycle_time[:done], cycle_time[:assignee],
-                cycle_time[:status]
+                cycle_time[:status], calculate_days_in_work(cycle_time)
               ]
       end
     end
+  end
+
+  def calculate_days_in_work(row)
+    done_date = row[:done]
+    start_date = row[:in_progress] || row[:test] || row[:resolved] || row[:feedback] || done_date
+    done_date ? (Date.parse(done_date) - Date.parse(start_date)).to_i : nil
   end
 
   def kickbacks
