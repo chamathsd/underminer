@@ -8,7 +8,7 @@ class Config
   end
 
   PROJECT_ID = '745'.freeze
-  FIXED_VERSION_IDS = %w[1207 1228 1271].freeze
+  FIXED_VERSION_IDS = %w[1207 1228 1271 1334].freeze
 
   ANALYSIS_STATUS_ID = '4'.freeze
   READY_TO_WORK_STATUS_ID = '10'.freeze
