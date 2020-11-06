@@ -24,7 +24,8 @@ class IssueDetailsFetcher
       journals: data['issue']['journals'],
       assignee: assigned_to(data),
       tracker: data['issue']['tracker']['name'],
-      description: data['issue']['description']
+      description: data['issue']['description'],
+      parent_id: parent_id(data)
     }
   end
 
@@ -35,6 +36,19 @@ class IssueDetailsFetcher
         if data['issue']['assigned_to'].key?('name')
           unless data['issue']['assigned_to']['name'].nil?
             assigned_to = data['issue']['assigned_to']['name']
+          end
+        end
+      end
+    end
+  end
+
+  def parent_id(data)
+    parent_id = ''
+    if data['issue'].key?('parent')
+      unless data['issue'].key?('parent').nil?
+        if data['issue']['parent'].key?('id')
+          unless data['issue']['parent']['id'].nil?
+            parent_id = data['issue']['parent']['id']
           end
         end
       end

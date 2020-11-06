@@ -22,7 +22,8 @@ class CycleTime
       assignee: issue_detail[:assignee],
       status: issue_detail[:status],
       tracker: issue_detail[:tracker],
-      description: issue_detail[:description]
+      description: issue_detail[:description],
+      parent_id: issue_detail[:parent_id]
     }
   end
 
