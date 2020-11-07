@@ -7,9 +7,11 @@ require 'csv'
 
 class ProjectMetrics
   attr_reader :issue_details
+  attr_reader :id_to_title
 
-  def initialize(issue_details)
+  def initialize(issue_details, id_to_title)
     @issue_details = issue_details
+    @id_to_title = id_to_title
   end
 
   def cycletime
@@ -17,12 +19,12 @@ class ProjectMetrics
     puts "Generating cycletime and writing to #{filename}"
 
     CSV.open(filename, 'w+') do |csv|
-      csv << ['Issue ID', 'Parent ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt']
+      csv << ['Issue ID', 'Parent ID', 'Parent Name', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt']
       issue_details.each do |issue|
         cycle_time = CycleTime.parse issue
         next if (Config::ISSUE_OUTLIERS.include? cycle_time[:id]) ||
                 (Config::TRACKERS_TO_SKIP.include? cycle_time[:tracker])
-        csv << [cycle_time[:id], cycle_time[:parent_id],
+        csv << [cycle_time[:id], cycle_time[:parent_id], id_to_title[cycle_time[:parent_id]],
                 cycle_time[:link], cycle_time[:subject],
                 cycle_time[:analysis], cycle_time[:ready_to_work],
                 cycle_time[:in_progress], cycle_time[:test],
