@@ -16,7 +16,8 @@ class ProjectMetrics
 
   def cycletime
     filename = 'cycletimes.csv'
-    puts "Generating cycletime and writing to #{filename}"
+    puts "Generating metrics..."
+    num_rows = 0
 
     CSV.open(filename, 'w+') do |csv|
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt', 'Parent ID', 'Parent Name', 'Target Version']
@@ -24,6 +25,7 @@ class ProjectMetrics
         cycle_time = CycleTime.parse issue
         next if (Config::ISSUE_OUTLIERS.include? cycle_time[:id]) ||
                 (Config::TRACKERS_TO_SKIP.include? cycle_time[:tracker])
+        next unless Config::CURRENT_TARGET_VERSION_IDS.include? cycle_time[:target_version_id]
         csv << [cycle_time[:id],
                 cycle_time[:link], cycle_time[:subject],
                 cycle_time[:analysis], cycle_time[:ready_to_work],
@@ -35,8 +37,10 @@ class ProjectMetrics
                 cycle_time[:parent_id], id_to_title[cycle_time[:parent_id]],
                 cycle_time[:target_version_name]
               ]
+        num_rows += 1
       end
     end
+    puts "Wrote #{num_rows} issues to #{filename}"
   end
 
   def calculate_days_in_work(row)

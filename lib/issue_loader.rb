@@ -1,7 +1,8 @@
 class IssueLoader
   def self.load_issue_details
     all_issue_ids = AllIssuesFetcher.new.fetch
-    puts "Found #{all_issue_ids.count} issues in project #{Config::PROJECT_ID}"
+    puts "Found #{all_issue_ids.count} total issues in project #{Config::PROJECT_ID}"
+    puts "However, not all those will be included in metrics"
 
     issue_id_to_title = {}
 
