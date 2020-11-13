@@ -25,7 +25,9 @@ class IssueDetailsFetcher
       assignee: assigned_to(data),
       tracker: data['issue']['tracker']['name'],
       description: data['issue']['description'],
-      parent_id: parent_id(data)
+      parent_id: parent_id(data),
+      target_version_name: target_version_name(data),
+      target_version_id: target_version_id(data)
     }
   end
 
@@ -49,6 +51,32 @@ class IssueDetailsFetcher
         if data['issue']['parent'].key?('id')
           unless data['issue']['parent']['id'].nil?
             parent_id = data['issue']['parent']['id']
+          end
+        end
+      end
+    end
+  end
+
+  def target_version_name(data)
+    fixed_version_name = ''
+    if data['issue'].key?('fixed_version')
+      unless data['issue'].key?('fixed_version').nil?
+        if data['issue']['fixed_version'].key?('name')
+          unless data['issue']['fixed_version']['name'].nil?
+            fixed_version_name = data['issue']['fixed_version']['name']
+          end
+        end
+      end
+    end
+  end
+
+  def target_version_id(data)
+    fixed_version_id = ''
+    if data['issue'].key?('fixed_version')
+      unless data['issue'].key?('fixed_version').nil?
+        if data['issue']['fixed_version'].key?('id')
+          unless data['issue']['fixed_version']['id'].nil?
+            fixed_version_id = data['issue']['fixed_version']['id']
           end
         end
       end

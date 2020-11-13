@@ -23,7 +23,9 @@ class CycleTime
       status: issue_detail[:status],
       tracker: issue_detail[:tracker],
       description: issue_detail[:description],
-      parent_id: issue_detail[:parent_id]
+      parent_id: issue_detail[:parent_id],
+      target_version_name: issue_detail[:target_version_name],
+      target_version_id: issue_detail[:target_version_id]
     }
   end
 

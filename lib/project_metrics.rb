@@ -19,7 +19,7 @@ class ProjectMetrics
     puts "Generating cycletime and writing to #{filename}"
 
     CSV.open(filename, 'w+') do |csv|
-      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt', 'Parent ID', 'Parent Name']
+      csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt', 'Parent ID', 'Parent Name', 'Target Version']
       issue_details.each do |issue|
         cycle_time = CycleTime.parse issue
         next if (Config::ISSUE_OUTLIERS.include? cycle_time[:id]) ||
@@ -32,7 +32,8 @@ class ProjectMetrics
                 cycle_time[:done], cycle_time[:assignee],
                 cycle_time[:status], calculate_days_in_work(cycle_time),
                 is_tech_debt(cycle_time),
-                cycle_time[:parent_id], id_to_title[cycle_time[:parent_id]]
+                cycle_time[:parent_id], id_to_title[cycle_time[:parent_id]],
+                cycle_time[:target_version_name]
               ]
       end
     end
