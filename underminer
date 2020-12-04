@@ -1,12 +1,31 @@
 #!/usr/bin/env ruby
-
+require 'optparse'
 require 'rubygems'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: underminer [options]"
+
+  opts.on("-i", "--input-file", "retrieve only issues listed (by id) in input file") do |i|
+    options[:input] = i
+  end
+end.parse!
+
+if options[:input]
+    input_file = ARGV[0]
+    if File.file?(input_file)
+        issue_ids = File.readlines(input_file, chomp: true)
+        puts "Processing only issues found in #{input_file}"
+    else
+        abort("Specified input file does not exist. Please try again.")
+    end
+end
 
 lib_dir = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift lib_dir
 Dir["#{lib_dir}/**/*.rb"].each { |file| require File.basename(file) }
 
-issue_details, id_to_title = IssueLoader.load_issue_details
+issue_details, id_to_title = IssueLoader.load_issue_details(issue_ids)
 project_metrics = ProjectMetrics.new(issue_details, id_to_title)
 project_metrics.cycletime
 #project_metrics.kickbacks
