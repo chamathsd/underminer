@@ -21,7 +21,7 @@ class ProjectMetrics
 
     CSV.open(filename, 'w+') do |csv|
       csv << ['Issue ID', 'Link', 'Title', 'Analysis', 'Ready to Work', 'In Progress', 'Code Review', 'QA', 'PO', 'Done', 'Assignee', 'Status', 'Days in Work', 'Tech Debt', 'Parent ID', 'Parent Name', 'Target Version']
-      issue_details.each do |issue|
+      issue_details.compact.each do |issue|
         cycle_time = CycleTime.parse issue
         next if (Config::ISSUE_OUTLIERS.include? cycle_time[:id]) ||
                 (Config::TRACKERS_TO_SKIP.include? cycle_time[:tracker])

@@ -7,10 +7,14 @@ class IssueLoader
     issue_id_to_title = {}
 
     issues = all_issue_ids.each_with_index.map do |issue_id, index|
-      update_progress_bar index + 1, all_issue_ids.count
-      issue = IssueDetailsFetcher.new.fetch issue_id
-      issue_id_to_title[issue[:id]] = issue[:subject]
-      issue
+      begin
+        update_progress_bar index + 1, all_issue_ids.count
+        issue = IssueDetailsFetcher.new.fetch issue_id
+        issue_id_to_title[issue[:id]] = issue[:subject]
+        issue
+      rescue => e
+        puts "an error occured load_issue_details for id: #{issue_id}"
+      end
     end
     return issues, issue_id_to_title
   end
