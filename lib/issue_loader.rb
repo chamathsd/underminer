@@ -41,7 +41,7 @@ class IssueLoader
 
   def self.process_unresolved_issues(issues)
     if issues.length > 0
-      output_filename = "unresolved_issues.#{Time.now.strftime("%Y%m%d_%H:%M:%S")}.txt"
+      output_filename = "failed_issues.#{Time.now.strftime("%Y%m%d_%H:%M:%S")}.txt"
       puts "#{issues.length} issue(s) failed to load. Writing to output file #{output_filename}..."
       File.open(output_filename, "w+") do |f|
         f.puts(issues)
